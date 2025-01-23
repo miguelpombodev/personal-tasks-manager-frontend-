@@ -1,12 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Container, 
   TaskList, 
-  TaskItem, 
-  PriorityBadge, 
   ListHeader,
-  NewTaskButton,
-  DeadlineContainer,
   HomeModalFooter
 } from './styles';
 import { Task, TaskPriority } from '../../interfaces/task';
@@ -14,6 +10,7 @@ import { client } from '../../services/api_client';
 import {endpoints} from '../../services/endpoints'
 import Modal from '../../components/Modal';
 import ButtonComponent from '../../components/Button';
+import TaskItem from '../../components/TaskItem';
 
 
 const Tasks: React.FC = () => {
@@ -64,19 +61,7 @@ useEffect(() => {
       </ListHeader>
       <TaskList>
         {tasks.map(task => (
-          <TaskItem key={task.id}>
-            <div>
-              <h3>{task.title}</h3>
-              <p>{task.description}</p>
-            </div>
-            <PriorityBadge priority={task.priority}>
-              {task.priority}
-            </PriorityBadge>
-            <DeadlineContainer>
-              <p>Prazo: {task.due_date}</p>
-              <p>Concluída: {task.completion_date ?? "Não concluída"}</p>
-            </DeadlineContainer>
-          </TaskItem>
+          <TaskItem key={task.id} title={task.title} description={task.description} due_date={task.due_date} completion_date={task.completion_date} priority={task.priority}/>
         ))}
       </TaskList>
       <Modal 
