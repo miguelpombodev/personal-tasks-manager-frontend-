@@ -86,3 +86,9 @@ export const DeadlineContainer = styled.div`
   flex-direction: column;
   gap: 10px;
 `;
+
+export const HomeModalFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+`;

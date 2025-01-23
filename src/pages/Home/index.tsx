@@ -6,15 +6,22 @@ import {
   PriorityBadge, 
   ListHeader,
   NewTaskButton,
-  DeadlineContainer
+  DeadlineContainer,
+  HomeModalFooter
 } from './styles';
 import { Task, TaskPriority } from '../../interfaces/task';
 import { client } from '../../services/api_client';
 import {endpoints} from '../../services/endpoints'
+import Modal from '../../components/Modal';
+import ButtonComponent from '../../components/Button';
 
 
 const Tasks: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   const getPriority = {
       "CRITICAL": TaskPriority.CRITICAL,
@@ -53,7 +60,7 @@ useEffect(() => {
     <Container>
       <ListHeader>
       <h1>Lista de Tarefas</h1>
-      <NewTaskButton>+ Nova Tarefa</NewTaskButton>
+      <ButtonComponent onClick={handleOpenModal} title='+ Nova Tarefa' color='primary'/>
       </ListHeader>
       <TaskList>
         {tasks.map(task => (
@@ -72,6 +79,20 @@ useEffect(() => {
           </TaskItem>
         ))}
       </TaskList>
+      <Modal 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal}
+        title="Crie uma nova tarefa!"
+        footer={
+          <HomeModalFooter>
+            <ButtonComponent color='cancel' title='Cancelar' onClick={handleCloseModal} />
+            <ButtonComponent color='secondary' title='Adicionar Tarefa'/>
+          </HomeModalFooter>
+        }
+      >
+        {/* Modal content goes here */}
+        <p>Task creation form or details</p>
+      </Modal>
     </Container>
   );
 };
