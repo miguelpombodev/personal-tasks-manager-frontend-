@@ -5,17 +5,24 @@ import {
   ListHeader,
   HomeModalFooter
 } from './styles';
-import { Task, TaskPriority } from '../../interfaces/task';
+import {ICreateTask, ITasksPriorities } from '../../interfaces/pages/home.interface';
+import {Task, TaskPriority } from '../../interfaces/components/taskItem.interface';
 import { client } from '../../services/api_client';
 import {endpoints} from '../../services/endpoints'
 import Modal from '../../components/Modal';
 import ButtonComponent from '../../components/Button';
 import TaskItem from '../../components/TaskItem';
+import { useForm } from 'react-hook-form';
+import InputComponent from '../../components/Input';
+import SelectComponent from '../../components/Select';
 
 
 const Tasks: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasksPriorities, setTasksPriorities] = useState<ITasksPriorities[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { register, handleSubmit } = useForm<ICreateTask>();
+  
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -37,27 +44,54 @@ const Tasks: React.FC = () => {
       return task
     })
     
-console.log(formattedList)
     return formattedList
   }
+
+const getTasksPrioritiesList = async (): Promise<ITasksPriorities[]> => {
+    const { data } = await client.get<ITasksPriorities[]>(endpoints.GET_TASKS_PRIORITIES);
+    return data
+}
+    
+
 useEffect(() => {
-  const fetchTasks = async () => {
+  const fetchTasksAndTasksPriorities = async () => {
     try {
       const tasksList = await getTasksList();
+      const tasksPrioritiesList = await getTasksPrioritiesList();
+
       setTasks(tasksList);
+      setTasksPriorities(tasksPrioritiesList)
     } catch (error) {
       console.error('Failed to fetch tasks:', error);
     }
   };
 
-  fetchTasks();
+  fetchTasksAndTasksPriorities();
 }, []);
+
+  const handleCreateNewTask = async (newTask: ICreateTask) => {
+    try {
+      const { data } = await client.post(endpoints.CREATE_NEW_USER_TASK, newTask);
+
+      const formattedTask: Task = {
+        ...data,
+        priority: getPriority[data.priority.toUpperCase()]
+      };
+    
+    setTasks(prevTasks => [...prevTasks, formattedTask]);
+    
+    handleCloseModal();
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
+  };
+
 
   return (
     <Container>
       <ListHeader>
       <h1>Lista de Tarefas</h1>
-      <ButtonComponent onClick={handleOpenModal} title='+ Nova Tarefa' color='primary'/>
+      <ButtonComponent size='short' onClick={handleOpenModal} title='+ Nova Tarefa' color='primary'/>
       </ListHeader>
       <TaskList>
         {tasks.map(task => (
@@ -70,13 +104,35 @@ useEffect(() => {
         title="Crie uma nova tarefa!"
         footer={
           <HomeModalFooter>
-            <ButtonComponent color='cancel' title='Cancelar' onClick={handleCloseModal} />
-            <ButtonComponent color='secondary' title='Adicionar Tarefa'/>
+            <ButtonComponent size='short' color='cancel' title='Cancelar' onClick={handleCloseModal} />
+            <ButtonComponent size='short' color='secondary' title='Adicionar Tarefa' type='submit'/>
           </HomeModalFooter>
         }
       >
-        {/* Modal content goes here */}
-        <p>Task creation form or details</p>
+        <form onSubmit={handleSubmit(handleCreateNewTask)}>
+          <InputComponent 
+            {...register('title', { required: true })}
+            placeholder="Título da tarefa"
+          />
+          <InputComponent 
+            {...register('description', { required: true })}
+            type="password"
+            placeholder="Descrição da tarefa"
+          />
+          <SelectComponent 
+            {...register('priority', { required: true })}
+            name="priorities"
+          >
+            {tasksPriorities.map((priority) => (
+              <option key={priority.id} value={priority.id}>{priority.name}</option>
+            ))}
+          </SelectComponent>
+          <InputComponent 
+            {...register('due_date', { required: true })}
+            type="date"
+            placeholder="Senha"
+          />
+        </form>
       </Modal>
     </Container>
   );

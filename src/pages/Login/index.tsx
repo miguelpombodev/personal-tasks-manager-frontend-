@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Container, LoginBox, Input, Button } from "./styles";
+import { Container, LoginBox } from "./styles";
 import { FaUser, FaLock } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { client } from '../../services/api_client';
 import { endpoints } from '../../services/endpoints';
+import InputComponent from '../../components/Input';
+import ButtonComponent from '../../components/Button';
 
 interface LoginFormData {
   email: string;
@@ -41,20 +43,20 @@ const Login: React.FC = () => {
   return (
     <Container>
       <LoginBox>
-        <h2>Login</h2>
+        <h2>Gerenciador de Tarefas 🎯</h2>
         <form onSubmit={handleSubmit(handleLogin)}>
-          <Input 
+          <InputComponent 
             {...register('email', { required: true })}
             placeholder="Email"
             icon={<FaUser />}
           />
-          <Input 
+          <InputComponent 
             {...register('password', { required: true })}
             type="password"
             placeholder="Senha"
             icon={<FaLock />}
           />
-          <Button type="submit">Entrar</Button>
+          <ButtonComponent size="full" title="Entrar" color='primary' type="submit"/>
         </form>
       </LoginBox>
     </Container>

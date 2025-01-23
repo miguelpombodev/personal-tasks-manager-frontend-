@@ -1,13 +1,10 @@
+import { IButtonComponentProps } from "../../interfaces/components/button.interface";
 import { Container } from "./styles";
 
-interface IButtonComponentProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color: "primary" | "secondary" | "cancel",
-  title: string,
-}
 
-function ButtonComponent({color, title, onClick, ...props}: IButtonComponentProps) {
+function ButtonComponent({color, title, onClick, type = "button",...props}: IButtonComponentProps) {
   return (
-    <Container color={color} onClick={onClick} {...props}>{title}</Container>
+    <Container title={title} color={color} type={type} onClick={onClick} {...props}>{title}</Container>
   )
 }
 

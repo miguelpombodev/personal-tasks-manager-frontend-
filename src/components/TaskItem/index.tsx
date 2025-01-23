@@ -1,4 +1,4 @@
-import { TaskPriority } from "../../interfaces/task"
+import { TaskPriority } from "../../interfaces/components/taskItem.interface"
 import * as S from "./styles"
 
 interface ITaskItemComponent {

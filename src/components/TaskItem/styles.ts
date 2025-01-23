@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { TaskPriority } from "../../interfaces/task";
+import { TaskPriority } from "../../interfaces/components/taskItem.interface";
 
 export const Container = styled.div`
   display: flex;

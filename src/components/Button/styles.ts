@@ -1,11 +1,8 @@
 import { darken } from "polished";
 import { styled } from "styled-components";
+import { IButtonComponentProps } from "../../interfaces/components/button.interface";
 
-interface ButtonColorProps {
-  color: "primary" | "secondary" | "cancel";
-}
-
-export const Container = styled.button<ButtonColorProps>`
+export const Container = styled.button<IButtonComponentProps>`
   border: none;
   padding: 10px 10px;
   background-color: ${({ theme, color }) => {
@@ -17,6 +14,10 @@ export const Container = styled.button<ButtonColorProps>`
       case "cancel":
         return theme.colors.cancel;
     }
+  }};
+
+  width: ${({ size }) => {
+    return size === "full" ? "100%" : "auto";
   }};
 
   color: ${({ theme }) => theme.colors.white};
