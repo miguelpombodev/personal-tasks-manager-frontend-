@@ -19,14 +19,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const storedToken = getStoredToken();
     if (storedToken) {
       setToken(storedToken);
-      setIsAuthenticated(true)
+      setIsAuthenticated(true);
     }
   }, []);
 
   const storeTokenForAuth = (token: string) => {
     storeToken(token);
     setToken(token);
-    setIsAuthenticated(true)
+    setIsAuthenticated(true);
   };
 
   return (

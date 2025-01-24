@@ -12,21 +12,21 @@ import "react-date-picker/dist/DatePicker.css";
 function App() {
   return (
     <BrowserRouter>
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <Home />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </AuthProvider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <AuthProvider>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Home />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>
   );
