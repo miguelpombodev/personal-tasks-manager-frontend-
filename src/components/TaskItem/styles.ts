@@ -55,3 +55,19 @@ export const DeadlineContainer = styled.div`
   gap: 10px;
   align-items: flex-end;
 `;
+
+export const DeadlineAndRemoveItemContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const TrashContainer = styled.span`
+  border-radius: 8px;
+  padding: 10px;
+  background-color: ${({ theme }) => theme.colors.priorityHigh};
+  color: ${({ theme }) => theme.colors.white};
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;

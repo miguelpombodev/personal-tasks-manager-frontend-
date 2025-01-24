@@ -23,12 +23,15 @@ const Tasks: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [tasksPriorities, setTasksPriorities] = useState<ITasksPriorities[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
+  const [isTaskModalOpen, setTaskIsModalOpen] = useState(false);
   const { register, handleSubmit } = useForm<ICreateTask>();
   
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleOpenTaskModal = () => setTaskIsModalOpen(true);
+  const handleCloseTaskModal = () => setTaskIsModalOpen(false);
 
   const getPriority = {
       "CRITICAL": TaskPriority.CRITICAL,
@@ -78,7 +81,7 @@ useEffect(() => {
   };
 
   fetchTasksAndTasksPriorities();
-}, []);
+}, [setTasks]);
 
   const handleCreateNewTask = async (newTask: ICreateTask) => {
     try {
@@ -108,7 +111,7 @@ useEffect(() => {
       </ListHeader>
       <TaskList>
         {tasks.map(task => (
-          <TaskItem key={task.id} title={task.title} description={task.description} due_date={task.due_date} completion_date={task.completion_date} priority={task.priority}/>
+          <TaskItem id={task.id} OnRemove={(id) => setTasks(prevTasks => prevTasks.filter(task => task.id !== id))} onClick={handleOpenTaskModal} key={task.id} title={task.title} description={task.description} due_date={task.due_date} completion_date={task.completion_date} priority={task.priority}/>
         ))}
       </TaskList>
       <Modal 
@@ -143,6 +146,13 @@ useEffect(() => {
             <ButtonComponent size='short' color='secondary' title='Adicionar Tarefa' type='submit'/>
           </HomeModalFooter>
         </form>
+      </Modal>
+      <Modal 
+        isOpen={isTaskModalOpen} 
+        onClose={handleCloseTaskModal}
+        title="Crie uma nova tarefa!"
+      >
+        <p>task</p>
       </Modal>
     </Container>
   );

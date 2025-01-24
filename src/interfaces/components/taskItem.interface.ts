@@ -14,3 +14,18 @@ export interface Task {
   due_date: string;
   completion_date?: string;
 }
+
+export interface ITaskItemComponent
+  extends React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > {
+  id: string;
+  title: string;
+  description: string;
+  priority: TaskPriority;
+  due_date: string;
+  completion_date?: string;
+  onClick?: () => void;
+  OnRemove: (id: string) => void;
+}
