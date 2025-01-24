@@ -15,12 +15,15 @@ import TaskItem from '../../components/TaskItem';
 import { useForm } from 'react-hook-form';
 import InputComponent from '../../components/Input';
 import SelectComponent from '../../components/Select';
+import { stringfiedDateFormat } from '../../utils/date.utils';
+import { ICreateTaskResponse } from '../../interfaces/responses/createTask.interface';
 
 
 const Tasks: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [tasksPriorities, setTasksPriorities] = useState<ITasksPriorities[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
   const { register, handleSubmit } = useForm<ICreateTask>();
   
 
@@ -33,6 +36,14 @@ const Tasks: React.FC = () => {
       "MEDIUM": TaskPriority.MEDIUM,
       "LOW": TaskPriority.LOW,
       "NONE": TaskPriority.NONE,
+  }
+
+    const getPriorityNumbered = {
+      "1": TaskPriority.CRITICAL,
+      "2": TaskPriority.HIGH,
+      "3": TaskPriority.MEDIUM,
+      "4": TaskPriority.LOW,
+      "5": TaskPriority.NONE,
   }
 
   const getTasksList = async (): Promise<Task[]> => {
@@ -71,15 +82,17 @@ useEffect(() => {
 
   const handleCreateNewTask = async (newTask: ICreateTask) => {
     try {
-      const { data } = await client.post(endpoints.CREATE_NEW_USER_TASK, newTask);
+      newTask.due_date = stringfiedDateFormat(newTask.due_date)
+
+      const { data } = await client.post<ICreateTaskResponse>(endpoints.CREATE_NEW_USER_TASK, newTask);
 
       const formattedTask: Task = {
         ...data,
-        priority: getPriority[data.priority.toUpperCase()]
+        priority: getPriorityNumbered[data.priority.toString()]
+
       };
     
     setTasks(prevTasks => [...prevTasks, formattedTask]);
-    
     handleCloseModal();
     } catch (error) {
       console.error("Login failed:", error);
@@ -102,12 +115,6 @@ useEffect(() => {
         isOpen={isModalOpen} 
         onClose={handleCloseModal}
         title="Crie uma nova tarefa!"
-        footer={
-          <HomeModalFooter>
-            <ButtonComponent size='short' color='cancel' title='Cancelar' onClick={handleCloseModal} />
-            <ButtonComponent size='short' color='secondary' title='Adicionar Tarefa' type='submit'/>
-          </HomeModalFooter>
-        }
       >
         <form onSubmit={handleSubmit(handleCreateNewTask)}>
           <InputComponent 
@@ -116,22 +123,25 @@ useEffect(() => {
           />
           <InputComponent 
             {...register('description', { required: true })}
-            type="password"
+            type="text"
             placeholder="Descrição da tarefa"
           />
           <SelectComponent 
             {...register('priority', { required: true })}
-            name="priorities"
+            name="priority"
           >
             {tasksPriorities.map((priority) => (
               <option key={priority.id} value={priority.id}>{priority.name}</option>
             ))}
-          </SelectComponent>
+          </SelectComponent> 
           <InputComponent 
             {...register('due_date', { required: true })}
             type="date"
-            placeholder="Senha"
           />
+          <HomeModalFooter>
+            <ButtonComponent size='short' color='cancel' title='Cancelar' onClick={handleCloseModal} />
+            <ButtonComponent size='short' color='secondary' title='Adicionar Tarefa' type='submit'/>
+          </HomeModalFooter>
         </form>
       </Modal>
     </Container>

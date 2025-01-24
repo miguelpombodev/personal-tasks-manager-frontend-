@@ -7,6 +7,8 @@ import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme";
 import { GlobalStyle } from "./styles/global";
 
+import "react-date-picker/dist/DatePicker.css";
+
 function App() {
   return (
     <BrowserRouter>

@@ -16,6 +16,10 @@ export const Container = styled.div`
     color: ${({ theme }) => theme.colors.gray};
     font-size: 0.9rem;
   }
+
+  & > * {
+    width: 33%;
+  }
 `;
 
 interface PriorityBadgeProps {
@@ -49,4 +53,5 @@ export const DeadlineContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  align-items: flex-end;
 `;

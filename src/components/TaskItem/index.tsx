@@ -16,9 +16,11 @@ function TaskItemComponent({title, description, priority, due_date, completion_d
                   <h3>{title}</h3>
                   <p>{description}</p>
                 </div>
-                <S.PriorityBadge priority={priority}>
-                  {priority}
-                </S.PriorityBadge>
+                <div style={{display: "flex", justifyContent: "center"}}>
+                  <S.PriorityBadge priority={priority}>
+                    {priority}
+                  </S.PriorityBadge>
+                </div>
                 <S.DeadlineContainer>
                   <p>Prazo: {due_date}</p>
                   <p>Concluída: {completion_date ?? "Não concluída"}</p>

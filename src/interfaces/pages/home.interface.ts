@@ -6,6 +6,6 @@ export interface ICreateTask {
 }
 
 export interface ITasksPriorities {
-  id: string;
+  id: number;
   name: string;
 }
