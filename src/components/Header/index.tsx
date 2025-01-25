@@ -27,6 +27,13 @@ function Header() {
 
   return (
     <S.Container>
+      <S.UserContainer>
+        <S.UserAvatarContainer />
+        <S.UserInformationsContainer>
+          <p>User name</p>
+          <p>Another Info</p>
+        </S.UserInformationsContainer>
+      </S.UserContainer>
       <S.SearchBarContainer>
         <FiSearch size={20} />
         <S.SearchBarInput type="text" />

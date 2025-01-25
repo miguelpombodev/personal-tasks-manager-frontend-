@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Container, TaskList, ListHeader, HomeModalFooter } from "./styles";
+import {
+  Container,
+  TaskList,
+  ListHeader,
+  HomeModalFooter,
+  EmptyTaskList,
+  EmptyTaskListImage,
+  EmptyTaskListText,
+} from "./styles";
 import {
   ICreateTask,
   ITasksPriorities,
@@ -18,6 +26,7 @@ import InputComponent from "../../components/Input";
 import SelectComponent from "../../components/Select";
 import { stringfiedDateFormat } from "../../utils/date.utils";
 import { ICreateTaskResponse } from "../../interfaces/responses/createTask.interface";
+import LoadingModal from "../../components/LoadingModal";
 
 const Tasks: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -26,6 +35,7 @@ const Tasks: React.FC = () => {
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTaskModalOpen, setTaskIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit } = useForm<ICreateTask>();
 
   const handleOpenModal = () => setIsModalOpen(true);
@@ -87,13 +97,14 @@ const Tasks: React.FC = () => {
 
   const handleCreateNewTask = async (newTask: ICreateTask) => {
     try {
+      setIsLoading(true);
+
       newTask.due_date = stringfiedDateFormat(newTask.due_date);
 
       const { data } = await client.post<ICreateTaskResponse>(
         endpoints.CREATE_NEW_USER_TASK,
         newTask,
       );
-
       const formattedTask: Task = {
         ...data,
         priority: getPriorityNumbered[data.priority.toString()],
@@ -103,9 +114,10 @@ const Tasks: React.FC = () => {
       handleCloseModal();
     } catch (error) {
       console.error("Login failed:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
-
   return (
     <Container>
       <ListHeader>
@@ -118,23 +130,37 @@ const Tasks: React.FC = () => {
         />
       </ListHeader>
       <TaskList>
-        {tasks.map((task) => (
-          <TaskItem
-            id={task.id}
-            OnRemove={(id) =>
-              setTasks((prevTasks) =>
-                prevTasks.filter((task) => task.id !== id),
-              )
-            }
-            onClick={handleOpenTaskModal}
-            key={task.id}
-            title={task.title}
-            description={task.description}
-            due_date={task.due_date}
-            completion_date={task.completion_date}
-            priority={task.priority}
-          />
-        ))}
+        {tasks.length !== 0 ? (
+          tasks.map((task) => (
+            <TaskItem
+              id={task.id}
+              OnRemove={(id) =>
+                setTasks((prevTasks) =>
+                  prevTasks.filter((task) => task.id !== id),
+                )
+              }
+              onClick={handleOpenTaskModal}
+              key={task.id}
+              title={task.title}
+              description={task.description}
+              due_date={task.due_date}
+              completion_date={task.completion_date}
+              priority={task.priority}
+            />
+          ))
+        ) : (
+          <EmptyTaskList>
+            <EmptyTaskListText>
+              Sua lista de tarefas está vazia! Crie uma tarefa para sua
+              organização!
+            </EmptyTaskListText>
+            <EmptyTaskListImage
+              src="https://cdni.iconscout.com/illustration/premium/thumb/man-doing-online-shopping-illustration-download-in-svg-png-gif-file-formats--on-sale-big-male-lifestyle-pack-business-illustrations-5857347.png?f=webp"
+              alt="humaaans"
+              title="humaaans"
+            />
+          </EmptyTaskList>
+        )}
       </TaskList>
       <Modal
         isOpen={isModalOpen}
@@ -188,6 +214,10 @@ const Tasks: React.FC = () => {
       >
         <p>task</p>
       </Modal>
+      <LoadingModal
+        isOpen={isLoading}
+        message="Processando sua solicitação..."
+      />
     </Container>
   );
 };

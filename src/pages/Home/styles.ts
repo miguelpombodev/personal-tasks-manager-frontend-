@@ -36,6 +36,22 @@ export const TaskList = styled.div`
   padding: ${({ theme }) => theme.spacing.medium};
 `;
 
+export const EmptyTaskList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const EmptyTaskListText = styled.p`
+  color: ${({ theme }) => theme.colors.gray};
+`;
+
+export const EmptyTaskListImage = styled.img`
+  width: 250px;
+  height: 300px;
+`;
+
 export const HomeModalFooter = styled.div`
   display: flex;
   justify-content: flex-end;

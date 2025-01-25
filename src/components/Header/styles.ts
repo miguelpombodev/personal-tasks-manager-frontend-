@@ -1,5 +1,26 @@
 import styled from "styled-components";
 
+export const UserContainer = styled.section`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-right: 1px solid #efefef;
+  padding-right: 20px;
+`;
+
+export const UserAvatarContainer = styled.div`
+  width: 50px;
+  height: 50px;
+  background-color: #000;
+  border-radius: 100%;
+`;
+
+export const UserInformationsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
 export const Container = styled.header`
   display: flex;
   background-color: #ffff;
