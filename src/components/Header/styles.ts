@@ -8,10 +8,9 @@ export const UserContainer = styled.section`
   padding-right: 20px;
 `;
 
-export const UserAvatarContainer = styled.div`
+export const UserAvatarContainer = styled.img`
   width: 50px;
   height: 50px;
-  background-color: #000;
   border-radius: 100%;
 `;
 

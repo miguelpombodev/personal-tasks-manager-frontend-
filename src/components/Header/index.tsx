@@ -1,9 +1,34 @@
 import { useEffect, useState } from "react";
 import * as S from "./styles";
 import { FiSearch, FiBell } from "react-icons/fi";
+import { client } from "../../services/api_client";
+import { User } from "../../interfaces/components/header.inteface";
+import { endpoints } from "../../services/endpoints";
+import path from "path";
 
 function Header() {
+  const [user, setUser] = useState<User>();
   const [hour, setHour] = useState(new Date());
+
+  const handleGetUserInformations = async (): Promise<User> => {
+    try {
+      const { data } = await client.get<User>(endpoints.GET_USER_INFORMATIONS);
+
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await handleGetUserInformations();
+
+      console.log(user);
+      setUser(user);
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -28,10 +53,10 @@ function Header() {
   return (
     <S.Container>
       <S.UserContainer>
-        <S.UserAvatarContainer />
+        <S.UserAvatarContainer src={user?.avatar} />
         <S.UserInformationsContainer>
-          <p>User name</p>
-          <p>Another Info</p>
+          <p>{user && user.name}</p>
+          <p>{user && user.email}</p>
         </S.UserInformationsContainer>
       </S.UserContainer>
       <S.SearchBarContainer>
