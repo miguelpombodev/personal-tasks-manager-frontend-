@@ -8,11 +8,24 @@ export const UserContainer = styled.section`
   padding-right: 20px;
 `;
 
-export const UserAvatarContainer = styled.img`
+export const UserAvatarContainer = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.primary};
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 1.25rem;
+  -webkit-box-shadow: 6px 8px 79px -14px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 6px 8px 79px -14px rgba(0, 0, 0, 0.75);
+  box-shadow: 6px 8px 79px -14px rgba(0, 0, 0, 0.75);
+  cursor: pointer;
 `;
+
+export const UserAvatarBadge = styled.span``;
 
 export const UserInformationsContainer = styled.div`
   display: flex;
@@ -91,5 +104,46 @@ export const NotificationButton = styled.span`
     border-radius: 50%;
     padding: 2px 6px;
     font-size: 12px;
+  }
+`;
+
+export const UserMenu = styled.div`
+  position: absolute;
+  top: 85px;
+  left: 9px;
+  width: 260px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  border-radius: 10px;
+`;
+
+export const UserMenuBasicInformations = styled.section`
+  display: flex;
+  padding: 10px;
+  gap: 15px;
+`;
+
+export const UserMenuNameAndEmail = styled.span`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const UserMenuItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  svg {
+    margin-right: 10px;
   }
 `;
