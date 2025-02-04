@@ -8,6 +8,7 @@ export const theme = {
     white: "#ffffff",
     black: "#0000",
     gray: "#7f8c8d",
+    lightPrimary: "#77c2f5",
     priorityLow: "#27ae60",
     priorityMedium: "#f39c12",
     priorityHigh: "#e74c3c",

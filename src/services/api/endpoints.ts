@@ -4,6 +4,7 @@ const CREATE_NEW_USER_TASK = "/tasks/create";
 const GET_TASKS_PRIORITIES = "/tasks/get/tasks-priorities";
 const REMOVE_USER_TASK = "/tasks/delete";
 const GET_USER_INFORMATIONS = "/users/get";
+const CREATE_NEW_USER = "/users/create";
 
 export const endpoints = {
   USER_LOGIN_ENDPOINT,
@@ -12,4 +13,5 @@ export const endpoints = {
   GET_TASKS_PRIORITIES,
   REMOVE_USER_TASK,
   GET_USER_INFORMATIONS,
+  CREATE_NEW_USER,
 };

@@ -1,8 +1,8 @@
 import { ITaskItemComponent } from "../../interfaces/components/taskItem.interface";
 import { FaTrashAlt } from "react-icons/fa";
 import * as S from "./styles";
-import { client } from "../../services/api_client";
-import { endpoints } from "../../services/endpoints";
+import { client } from "../../services/api/api_client";
+import { endpoints } from "../../services/api/endpoints";
 
 function TaskItemComponent({
   id,

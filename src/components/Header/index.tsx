@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import * as S from "./styles";
 import { FiSearch, FiBell } from "react-icons/fi";
-import { client } from "../../services/api_client";
+import { client } from "../../services/api/api_client";
 import { User } from "../../interfaces/components/header.inteface";
-import { endpoints } from "../../services/endpoints";
-import path from "path";
+import { endpoints } from "../../services/api/endpoints";
 
 function Header() {
   const [user, setUser] = useState<User>();

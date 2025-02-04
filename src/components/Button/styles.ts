@@ -4,7 +4,7 @@ import { IButtonComponentProps } from "../../interfaces/components/button.interf
 
 export const Container = styled.button<IButtonComponentProps>`
   border: none;
-  padding: 10px 10px;
+  padding: 18px 10px;
   background-color: ${({ theme, color }) => {
     switch (color) {
       case "primary":
@@ -23,9 +23,18 @@ export const Container = styled.button<IButtonComponentProps>`
   color: ${({ theme }) => theme.colors.white};
   font-weight: bold;
   font-size: 16px;
-  border-radius: 10px;
+  border-radius: 8px;
   cursor: pointer;
   transition: 0.3s;
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors.gray};
+
+    &:hover {
+      background-color: ${({ theme }) => darken(0.1, theme.colors.gray)};
+      cursor: not-allowed;
+    }
+  }
 
   &:hover {
     background-color: ${({ theme, color }) => {

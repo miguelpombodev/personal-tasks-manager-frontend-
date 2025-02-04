@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Container, LoginBox } from "./styles";
+import * as S from "./styles";
 import { FaUser, FaLock } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { client } from "../../services/api_client";
-import { endpoints } from "../../services/endpoints";
+import { client } from "../../services/api/api_client";
+import { endpoints } from "../../services/api/endpoints";
 import InputComponent from "../../components/Input";
 import ButtonComponent from "../../components/Button";
+import { toast, ToastContainer } from "react-toastify";
 
 interface LoginFormData {
   email: string;
@@ -35,36 +36,64 @@ const Login: React.FC = () => {
       storeTokenForAuth(token);
       const from = location.state?.from?.pathname || "/home";
       navigate(from);
-    } catch (error) {
-      console.error("Login failed:", error);
+    } catch (error: any) {
+      if (error.response && error.response.status === 404) {
+        toast.error(
+          "Usuário não encontrado. Verifique suas credenciais e tente novamente.",
+        );
+      } else {
+        toast.error("Ocorreu um erro inesperado. Tente novamente mais tarde.");
+      }
     }
   };
 
   return (
-    <Container>
-      <LoginBox>
-        <h2>Gerenciador de Tarefas 🎯</h2>
-        <form onSubmit={handleSubmit(handleLogin)}>
-          <InputComponent
-            {...register("email", { required: true })}
-            placeholder="Email"
-            icon={<FaUser />}
-          />
-          <InputComponent
-            {...register("password", { required: true })}
-            type="password"
-            placeholder="Senha"
-            icon={<FaLock />}
-          />
-          <ButtonComponent
-            size="full"
-            title="Entrar"
-            color="primary"
-            type="submit"
-          />
-        </form>
-      </LoginBox>
-    </Container>
+    <S.Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+      />
+      <S.LoginImageContainer>
+        <S.LoginImage
+          src="/login_image.jpg"
+          alt="login-image"
+          title="login-image"
+        />
+      </S.LoginImageContainer>
+      <S.LoginContainer>
+        <S.LoginBox>
+          <S.LoginContainerHeader>
+            <h2>Start Organizing Yourself!</h2>
+            <span>
+              Does not have an account?
+              <S.CreateAccountLink to="/create">
+                Create it here!
+              </S.CreateAccountLink>
+            </span>
+          </S.LoginContainerHeader>
+          <form onSubmit={handleSubmit(handleLogin)}>
+            <InputComponent
+              {...register("email", { required: true })}
+              placeholder="Email"
+              icon={<FaUser />}
+            />
+            <InputComponent
+              {...register("password", { required: true })}
+              type="password"
+              placeholder="Password"
+              icon={<FaLock />}
+            />
+            <ButtonComponent
+              size="full"
+              title="Log in"
+              color="primary"
+              type="submit"
+            />
+          </form>
+        </S.LoginBox>
+      </S.LoginContainer>
+    </S.Container>
   );
 };
 

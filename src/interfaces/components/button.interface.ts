@@ -3,4 +3,5 @@ export interface IButtonComponentProps
   color: "primary" | "secondary" | "cancel";
   title: string;
   size: "short" | "full";
+  disabled: boolean;
 }

@@ -8,6 +8,7 @@ import { theme } from "./styles/theme";
 import { GlobalStyle } from "./styles/global";
 
 import "react-date-picker/dist/DatePicker.css";
+import CreateUser from "./pages/CreateUser";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/create" element={<CreateUser />} />
             <Route
               path="/"
               element={

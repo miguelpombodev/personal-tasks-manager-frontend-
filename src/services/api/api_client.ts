@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getStoredToken, removeStoredToken } from "./auth";
+import { getStoredToken, removeStoredToken } from "../auth";
 
 export const client = axios.create({
   baseURL: process.env.API_BASE_URL,

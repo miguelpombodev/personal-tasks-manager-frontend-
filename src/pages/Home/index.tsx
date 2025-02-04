@@ -16,8 +16,8 @@ import {
   Task,
   TaskPriority,
 } from "../../interfaces/components/taskItem.interface";
-import { client } from "../../services/api_client";
-import { endpoints } from "../../services/endpoints";
+import { client } from "../../services/api/api_client";
+import { endpoints } from "../../services/api/endpoints";
 import Modal from "../../components/Modal";
 import ButtonComponent from "../../components/Button";
 import TaskItem from "../../components/TaskItem";
